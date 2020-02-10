@@ -23,10 +23,12 @@ use function wp_nav_menu;
  * Exposes template tags:
  * * `wp_rig()->is_primary_nav_menu_active()`
  * * `wp_rig()->display_primary_nav_menu( array $args = [] )`
+ * * `wp_rig()->display_footer_nav_menu( array $args = [] )`
  */
 class Component implements Component_Interface, Templating_Component_Interface {
 
 	const PRIMARY_NAV_MENU_SLUG = 'primary';
+	const FOOTER_NAV_MENU_SLUG  = 'footer';
 
 	/**
 	 * Gets the unique identifier for the theme component.
@@ -41,8 +43,8 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 * Adds the action and filter hooks to integrate with WordPress.
 	 */
 	public function initialize() {
-		add_action( 'after_setup_theme', [ $this, 'action_register_nav_menus' ] );
-		add_filter( 'walker_nav_menu_start_el', [ $this, 'filter_primary_nav_menu_dropdown_symbol' ], 10, 4 );
+		add_action( 'after_setup_theme', array( $this, 'action_register_nav_menus' ) );
+		add_filter( 'walker_nav_menu_start_el', array( $this, 'filter_primary_nav_menu_dropdown_symbol' ), 10, 4 );
 	}
 
 	/**
@@ -53,10 +55,11 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 *               adding support for further arguments in the future.
 	 */
 	public function template_tags() : array {
-		return [
-			'is_primary_nav_menu_active' => [ $this, 'is_primary_nav_menu_active' ],
-			'display_primary_nav_menu'   => [ $this, 'display_primary_nav_menu' ],
-		];
+		return array(
+			'is_primary_nav_menu_active' => array( $this, 'is_primary_nav_menu_active' ),
+			'display_primary_nav_menu'   => array( $this, 'display_primary_nav_menu' ),
+			'display_footer_nav_menu'    => array( $this, 'display_footer_nav_menu' ),
+		);
 	}
 
 	/**
@@ -64,9 +67,10 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function action_register_nav_menus() {
 		register_nav_menus(
-			[
+			array(
 				static::PRIMARY_NAV_MENU_SLUG => esc_html__( 'Primary', 'wp-rig' ),
-			]
+				static::FOOTER_NAV_MENU_SLUG  => esc_html__( 'Footer', 'wp-rig' ),
+			)
 		);
 	}
 
@@ -98,7 +102,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		}
 
 		// Add the dropdown for items that have children.
-		if ( ! empty( $item->classes ) && in_array( 'menu-item-has-children', $item->classes ) ) {
+		if ( ! empty( $item->classes ) && in_array( 'menu-item-has-children', $item->classes, true ) ) {
 			return $item_output . '<span class="dropdown"><i class="dropdown-symbol"></i></span>';
 		}
 
@@ -120,12 +124,28 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 * @param array $args Optional. Array of arguments. See `wp_nav_menu()` documentation for a list of supported
 	 *                    arguments.
 	 */
-	public function display_primary_nav_menu( array $args = [] ) {
+	public function display_primary_nav_menu( array $args = array() ) {
 		if ( ! isset( $args['container'] ) ) {
 			$args['container'] = 'ul';
 		}
 
 		$args['theme_location'] = static::PRIMARY_NAV_MENU_SLUG;
+
+		wp_nav_menu( $args );
+	}
+
+	/**
+	 * Displays the footer navigation menu.
+	 *
+	 * @param array $args Optional. Array of arguments. See `wp_nav_menu()` documentation for a list of supported
+	 *                    arguments.
+	 */
+	public function display_footer_nav_menu( array $args = array() ) {
+		if ( ! isset( $args['container'] ) ) {
+			$args['container'] = 'ul';
+		}
+
+		$args['theme_location'] = static::FOOTER_NAV_MENU_SLUG;
 
 		wp_nav_menu( $args );
 	}

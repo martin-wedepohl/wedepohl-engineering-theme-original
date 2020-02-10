@@ -21,7 +21,7 @@ class Theme {
 	 *
 	 * @var array
 	 */
-	protected $components = [];
+	protected $components = array();
 
 	/**
 	 * The template tags instance, providing access to all available template tags.
@@ -41,7 +41,7 @@ class Theme {
 	 *
 	 * @throws InvalidArgumentException Thrown if one of the $components does not implement Component_Interface.
 	 */
-	public function __construct( array $components = [] ) {
+	public function __construct( array $components = array() ) {
 		if ( empty( $components ) ) {
 			$components = $this->get_default_components();
 		}
@@ -134,7 +134,7 @@ class Theme {
 	 * @return array List of theme components to use by default.
 	 */
 	protected function get_default_components() : array {
-		$components = [
+		$components = array(
 			new Localization\Component(),
 			new Base_Support\Component(),
 			new Editor\Component(),
@@ -142,17 +142,25 @@ class Theme {
 			new Image_Sizes\Component(),
 			new Lazyload\Component(),
 			new AMP\Component(),
-			new PWA\Component(),
+
+			/*
+			NOT USED new PWA\Component(),
+			*/
+
 			new Comments\Component(),
 			new Nav_Menus\Component(),
 			new Sidebars\Component(),
-			new Custom_Background\Component(),
-			new Custom_Header\Component(),
+
+			/*
+			NOT USED new Custom_Background\Component(),
+			NOT USED new Custom_Header\Component(),
+			*/
+
 			new Custom_Logo\Component(),
 			new Post_Thumbnails\Component(),
 			new Customizer\Component(),
 			new Styles\Component(),
-		];
+		);
 
 		if ( defined( 'JETPACK__VERSION' ) ) {
 			$components[] = new Jetpack\Component();
