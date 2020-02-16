@@ -142,20 +142,9 @@ class Theme {
 			new Image_Sizes\Component(),
 			new Lazyload\Component(),
 			new AMP\Component(),
-
-			/*
-			NOT USED new PWA\Component(),
-			*/
-
 			new Comments\Component(),
 			new Nav_Menus\Component(),
 			new Sidebars\Component(),
-
-			/*
-			NOT USED new Custom_Background\Component(),
-			NOT USED new Custom_Header\Component(),
-			*/
-
 			new Custom_Logo\Component(),
 			new Post_Thumbnails\Component(),
 			new Customizer\Component(),

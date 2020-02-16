@@ -75,116 +75,31 @@
 	margin: 0 auto;
 	max-width: 100%;
 	display: grid;
-	grid-template-columns: 100%;
-	grid-template-rows: 1fr 3fr 1fr;
-	grid-template-areas: "menu" "content" "footer";
+	grid-template-columns: 1fr;
+	grid-template-areas: "header" "content" "footer";
+	column-gap: 1em;
 }
 
-.site-branding {
-	grid-area: menu;
-	justify-self: center;
-	align-self: start;
-}
-
-.main-navigation {
-	grid-area: menu;
-	justify-self: center;
-	align-self: end;
+.has-sidebar .site {
+	grid-template-areas: "header" "content" "sidebar" "footer";
 }
 
 .site-main {
 	grid-area: content;
+}
+
+.primary-sidebar {
+	grid-area: sidebar;
 	align-self: center;
-}
-
-.site-copyright {
-	font-size: 80%;
-	grid-area: footer;
-	justify-self: center;
-	align-self: start;
-}
-
-.site-social {
-	font-size: 80%;
-	grid-area: footer;
-	justify-self: center;
-	align-self: center;
-}
-
-.site-privacy {
-	font-size: 80%;
-	grid-area: footer;
-	justify-self: center;
-	align-self: end;
-}
-
-.site-privacy > ul {
-	list-style: none;
-	margin: 0;
-}
-
-.site-privacy > ul > li > a {
-	margin-left: -40px;
 }
 
 @media (--wide-menu-query) {
-	.site {
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-areas: "logo menu menu" "main main main" "copyright social privacy";
-	}
-
-	.site-branding {
-		grid-area: logo;
-		align-self: center;
-	}
-
-	.main-navigation {
-		grid-area: menu;
-		justify-self: end;
-		align-self: center;
-	}
-
-	.site-main {
-		grid-area: main;
-	}
-
-	.site-copyright {
-		grid-area: copyright;
-		align-self: center;
-	}
-	
-	.site-social {
-		grid-area: social;
-	}
-	
-	.site-privacy {
-		grid-area: privacy;
-		align-self: center;
-	}
-
-}
-
-@media (--sidebar-query) {
-
 	.has-sidebar .site {
 		margin: 0 1em;
-		display: contents;
-		justify-content: center;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-areas: "header header header" "content content sidebar" "footer footer footer";
 	}
-
-	.site-main {
-		grid-column: span 2;
-		min-width: 0;
-	}
-
-	.primary-sidebar {
-		grid-column: 3;
-		min-width: 0;
-	}
-
 }
-
-
 
 /*--------------------------------------------------------------
 # Forms
@@ -280,8 +195,14 @@ select {
 --------------------------------------------------------------*/
 
 .site-header {
-	display: contents;
-	padding-bottom: 1em;
+	grid-area: header;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-areas: "branding" "menu";
+	align-items: center;
+	justify-items: center;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
 }
 
 .header-image {
@@ -322,6 +243,24 @@ select {
 	line-height: 1.4;
 	word-wrap: break-word;
 	color: #757575;
+}
+
+@media (--wide-menu-query) {
+
+	.site-header {
+		grid-template-columns: 1fr 2fr;
+		grid-template-areas: "branding menu";
+	}
+
+	.has-sidebar .site-header {
+		grid-area: "header";
+		grid-template-columns: 1fr 2fr;
+	}
+
+	.main-navigation {
+		justify-self: end;
+	}
+
 }
 
 /*--------------------------------------------------------------
@@ -558,6 +497,7 @@ select {
 		padding-left: 0;
 		padding-right: 0;
 	}
+
 }
 
 .nav-links {
@@ -643,15 +583,56 @@ select {
 # Footer
 --------------------------------------------------------------*/
 .site-footer {
-	margin: 1em 0 0;
-	padding: 2em 0;
+	margin: 1em 0;
 	font-family: var(--highlight-font-family);
 	font-stretch: condensed;
-	display: contents;
+	grid-area: footer;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-areas: "copyright" "social" "privacy";
+	justify-items: center;
+	align-items: center;
 }
 
-.site-info {
+.site-copyright {
 	text-align: center;
+	font-size: 80%;
+	grid-area: copyright;
+}
+
+.site-social {
+	text-align: center;
+	font-size: 80%;
+	grid-area: social;
+}
+
+.site-privacy {
+	text-align: center;
+	font-size: 80%;
+	grid-area: privacy;
+}
+
+.site-privacy > ul {
+	list-style: none;
+	margin: 0;
+}
+
+.site-privacy > ul > li > a {
+	margin-left: -40px;
+}
+
+@media (--wide-menu-query) {
+
+	.site-footer {
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-areas: "copyright social privacy";
+	}
+
+	.has-sidebar .site-footer {
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-areas: "copyright social privacy";
+	}
+
 }
 
 /*--------------------------------------------------------------
