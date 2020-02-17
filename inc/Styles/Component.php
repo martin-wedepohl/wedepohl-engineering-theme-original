@@ -310,6 +310,18 @@ class Component implements Component_Interface, Templating_Component_Interface {
 					return 'front-page.php' === basename( $template );
 				},
 			],
+			'wp-rig-sticky'    => [
+				'file'             => 'sticky.min.css',
+				'preload_callback' => function() {
+					return wp_rig()->is_sticky_header();
+				},
+			],
+			'wp-rig-sticky-mobile'    => [
+				'file'             => 'sticky-mobile.min.css',
+				'preload_callback' => function() {
+					return wp_rig()->scroll_mobile_sticky_header();
+				},
+			],
 		];
 
 		/**

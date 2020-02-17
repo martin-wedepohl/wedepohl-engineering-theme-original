@@ -1,0 +1,22 @@
+/*--------------------------------------------------------------
+# Sticky Header
+--------------------------------------------------------------*/
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: #fff;
+}
+
+@media (--large-admin-bar) {
+	.admin-bar .site-header {
+		top: 46px;
+	}
+}
+
+@media (--small-admin-bar) {
+	.admin-bar .site-header {
+		top: 32px;
+	}
+}

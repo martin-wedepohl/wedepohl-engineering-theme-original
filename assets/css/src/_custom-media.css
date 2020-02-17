@@ -2,10 +2,17 @@
  * Custom Media Queries
  * Works like Custom Properties, except for media queries.
  *
+ * With the 16 px default font size
+ * 37.5em = 600px
+ * 48em   = 768px
+ * 60em   = 960px
+ *
  * @link: https://drafts.csswg.org/mediaqueries-5/#custom-mq
  **/
 
 @custom-media --narrow-menu-query screen and (max-width: 37.5em);
 @custom-media --wide-menu-query screen and (min-width: 37.5em);
+@custom-media --large-admin-bar screen and (min-width: 601px);
 @custom-media --content-query screen and (min-width: 48em);
+@custom-media --small-admin-bar screen and (min-width: 783px);
 @custom-media --sidebar-query screen and (min-width: 60em);

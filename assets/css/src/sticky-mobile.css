@@ -1,0 +1,30 @@
+/*--------------------------------------------------------------
+# Sticky Header
+--------------------------------------------------------------*/
+
+.site-header {
+	position: inherit;
+	top: 0;
+	z-index: 100;
+	background: #fff;
+}
+
+@media (--large-admin-bar) {
+	.site-header {
+		position: sticky;
+	}
+	.admin-bar .site-header {
+		position: sticky;
+		top: 46px;
+	}
+}
+
+@media (--small-admin-bar) {
+	.site-header {
+		position: sticky;
+	}
+	.admin-bar .site-header {
+		position: sticky;
+		top: 32px;
+	}
+}

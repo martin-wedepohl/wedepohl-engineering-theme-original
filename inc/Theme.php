@@ -145,6 +145,7 @@ class Theme {
 			new Comments\Component(),
 			new Nav_Menus\Component(),
 			new Sidebars\Component(),
+			new Sticky_Header\Component(),
 			new Custom_Logo\Component(),
 			new Post_Thumbnails\Component(),
 			new Customizer\Component(),
