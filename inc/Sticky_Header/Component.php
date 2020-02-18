@@ -1,6 +1,6 @@
 <?php
 /**
- * WP_Rig\WP_Rig\Lazyload\Component class
+ * WP_Rig\WP_Rig\Sticky_Header\Component class
  *
  * @package wp_rig
  */
@@ -98,6 +98,14 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			'sticky-header'    => __( 'Sticky Header on', 'wp-rig' ),
 		);
 
+		$wp_customize->add_section(
+			'sticky_header_options',
+			array(
+				'title'    => __( 'Sticky Header Options', 'wp-rig' ),
+				'panel'    => 'theme_panel_id',
+			)
+		);
+
 		$wp_customize->add_setting(
 			'sticky_header',
 			array(
@@ -119,7 +127,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			'sticky_header',
 			array(
 				'label'       => __( 'Sticky Header', 'wp-rig' ),
-				'section'     => 'theme_options',
+				'section'     => 'sticky_header_options',
 				'type'        => 'radio',
 				'description' => __( 'Sticky Header stops the header (Logo/Site Branding and menu) from scrolling off the page.', 'wp-rig' ),
 				'choices'     => $sticky_header_choices,
@@ -145,7 +153,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			'scroll_mobile',
 			array(
 				'label'       => __( 'Scroll Mobile Header', 'wp-rig' ),
-				'section'     => 'theme_options',
+				'section'     => 'sticky_header_options',
 				'type'        => 'checkbox',
 				'description' => __( 'Overrides Sticky Header for mobile devices.', 'wp-rig' ),
 			)
