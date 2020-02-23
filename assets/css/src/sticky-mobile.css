@@ -11,20 +11,20 @@
 
 @media (--large-admin-bar) {
 	.site-header {
-		position: sticky;
+		position: fixed;
 	}
 	.admin-bar .site-header {
-		position: sticky;
+		position: fixed;
 		top: 46px;
 	}
 }
 
 @media (--small-admin-bar) {
 	.site-header {
-		position: sticky;
+		position: fixed;
 	}
 	.admin-bar .site-header {
-		position: sticky;
+		position: fixed;
 		top: 32px;
 	}
 }

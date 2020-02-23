@@ -13,6 +13,7 @@ use function WP_Rig\WP_Rig\wp_rig;
 use WP_Customize_Manager;
 use function add_action;
 use function is_admin;
+use function boolval;
 use function get_theme_mod;
 use function get_theme_file_uri;
 use function get_theme_file_path;
@@ -41,6 +42,26 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function initialize() {
 		add_action( 'customize_register', array( $this, 'action_customize_register_sticky_header' ) );
+
+		$shrink_header = boolval( get_theme_mod( 'shrink_header', 'true' ) );
+		if ( $shrink_header ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'action_enqueue_assets' ) );
+		}
+	}
+
+	/**
+	 * Enqueues and defer sticky JavaScript.
+	 */
+	public function action_enqueue_assets() {
+		wp_enqueue_script(
+			'wp-rig-sticky-header',
+			get_theme_file_uri( '/assets/js/sticky.min.js' ),
+			array(),
+			wp_rig()->get_asset_version( get_theme_file_path( '/assets/js/sticky.min.js' ) ),
+			false
+		);
+		wp_script_add_data( 'wp-rig-sticky-header', 'defer', true );
+		wp_script_add_data( 'wp-rig-sticky-header', 'precache', true );
 	}
 
 	/**
@@ -63,13 +84,11 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 * @return bool If the header should be sticky or not
 	 */
 	public function is_sticky_header() : bool {
-
 		$sticky_header = get_theme_mod( 'sticky_header' );
-		$scroll_mobile = get_theme_mod( 'scroll_mobile' );
+		$scroll_mobile = boolval( get_theme_mod( 'scroll_mobile', 'true' ) );
 		$want_sticky   = 'sticky-header' === $sticky_header && ! $scroll_mobile;
 
 		return $want_sticky;
-
 	}
 
 	/**
@@ -78,13 +97,11 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 * @return bool If the mobile header should scroll or not
 	 */
 	public function scroll_mobile_sticky_header() : bool {
-
 		$sticky_header = get_theme_mod( 'sticky_header' );
-		$scroll_mobile = get_theme_mod( 'scroll_mobile' );
+		$scroll_mobile = boolval( get_theme_mod( 'scroll_mobile', 'true' ) );
 		$want_sticky   = 'sticky-header' === $sticky_header && $scroll_mobile;
 
 		return $want_sticky;
-
 	}
 
 	/**
@@ -158,7 +175,30 @@ class Component implements Component_Interface, Templating_Component_Interface {
 				'description' => __( 'Overrides Sticky Header for mobile devices.', 'wp-rig' ),
 			)
 		);
+		$wp_customize->add_setting(
+			'shrink_header',
+			array(
+				'default'           => 'checked',
+				'transport'         => 'postMessage',
+				'sanitize_callback' => function( $input ) : bool {
+					if ( isset( $input ) && true === $input ) {
+						return true;
+					}
 
+					return false;
+				},
+			)
+		);
+
+		$wp_customize->add_control(
+			'shrink_header',
+			array(
+				'label'       => __( 'Shrink Header', 'wp-rig' ),
+				'section'     => 'sticky_header_options',
+				'type'        => 'checkbox',
+				'description' => __( 'Shrinks header on scroll.', 'wp-rig' ),
+			)
+		);
 	}
 
 }
