@@ -145,11 +145,13 @@ class Theme {
 			new Comments\Component(),
 			new Nav_Menus\Component(),
 			new Sidebars\Component(),
+			new Social_Links\Component(),
 			new Sticky_Header\Component(),
 			new Custom_Logo\Component(),
 			new Post_Thumbnails\Component(),
 			new Customizer\Component(),
 			new Styles\Component(),
+			new Static_Pages\Component(),
 		);
 
 		if ( defined( 'JETPACK__VERSION' ) ) {
